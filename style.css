@@ -158,239 +158,125 @@ margin-bottom:12px;
    Background Effects
 ========================= */
 
-.background {
-position: fixed;
-  
-  /* 1. Pull the background off-screen to create a buffer on all sides */
-  top: -15dvh; 
-  left: -15vw; 
-  
-  /* 2. Use Dynamic Viewport Height (dvh) to handle mobile address bars */
-  width: 130vw;
-  height: 130dvh;
-
-  background:
-    radial-gradient(circle at 20% 30%, rgba(0,224,168,0.35), transparent 45%),
-    radial-gradient(circle at 80% 60%, rgba(255,62,165,0.35), transparent 50%),
-    url("images/bg1.avif") center/cover no-repeat,
-    #0e1117;
-  /* optional blend mode to help gradients mix with image */
-  background-blend-mode: overlay;
-
-  animation: auroraMove 120s ease infinite;
-
-will-change: transform;
-  transform: translateZ(0);
-
-  z-index: 0;
-}
-
-.background::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url("images/bg1.avif") center/cover no-repeat;
-  opacity: 0.15;       /* subtle peek-through */
-  z-index: -1;          /* behind gradients and other layers */
-}
-
-@keyframes auroraMove{
-
-0%{transform:translate(0,0);}
-50%{transform:translate(-5%,3%);}
-100%{transform:translate(0,0);}
-
-}
-.ripple{
-position:fixed;
-top:0;
-left:0;
-width:200%;
-height:200%;
-
-background:
-radial-gradient(circle at 30% 40%, rgba(255,255,255,0.05), transparent 40%),
-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 45%);
-
-animation:rippleMove 60s linear infinite;
-
-z-index:1;
-}
-
-@keyframes rippleMove{
-
-0%{
-transform:translate(-10%, -10%) rotate(0deg);
-}
-
-50%{
-transform:translate(-15%, -12%) rotate(2deg);
-}
-
-100%{
-transform:translate(-10%, -10%) rotate(0deg);
-}
-
-}
-.noise{
-
-position:fixed;
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background-image:url("images/noise.png");
-
-opacity:0.5;
-
-pointer-events:none;
-
-z-index:1;
-
-}
-
-/* Ripple */
-
-.ripple{
-position:fixed;
-top:0;
-left:0;
-width:200%;
-height:200%;
-
-background:
-radial-gradient(circle at 30% 40%, rgba(255,255,255,0.05), transparent 40%),
-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 45%);
-
-animation:rippleMove 60s linear infinite;
-
-z-index:1;
-}
-
-@keyframes rippleMove{
-
-0%{
-transform:translate(-10%, -10%) rotate(0deg);
-}
-
-50%{
-transform:translate(-15%, -12%) rotate(2deg);
-}
-
-100%{
-transform:translate(-10%, -10%) rotate(0deg);
-}
-
-}
-
-/* =========================
-   Footer
-========================= */
-
-footer{
-text-align: center;
-padding: 40px 20px;
-color: #aaa;
-font-size: 0.8rem;
-letter-spacing: 0.1em;
-z-index: 10;   /* make sure it's above background layers */
-position: relative;
-}
-}
-
-footer a{
-color: var(--accent1);      /* change to your desired color */
-text-decoration:none;
-}
-
-footer a:hover{
-text-decoration:underline;
-color: #00ffe0;       /* optional: slightly different shade on hover */
-}
-
-.subtitle{
-font-size:0.8rem;
-letter-spacing:0.3em;
-color:#aaa;
-margin-bottom:50px;
-text-transform:uppercase;
-}
-
-.role{
-font-size:0.8rem;
-color:#aaa;
-letter-spacing:0.15em;
-text-transform:uppercase;
-margin-top:6px;
-}
-
-:root{
-  --bg:#0e1117;
-  --muted:#cfcfcf;
-  --accent1:#00e0a8;
-  --accent2:#ff3ea5;
+:root {
+  --bg: #0e1117;
+  --muted: #cfcfcf;
+  --accent1: #00e0a8;
+  --accent2: #ff3ea5;
   --card-bg: rgba(255,255,255,0.04);
   --gap: 32px;
 }
 
-
-
-.orbs{
-
-position:fixed;
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-overflow:hidden;
-
-z-index:0;
-
+/* 1. Optimized Background: Reduced size to 110% to lower paint area */
+.background {
+  position: fixed;
+  top: -5dvh; 
+  left: -5vw; 
+  width: 110vw;
+  height: 110dvh;
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(0,224,168,0.2), transparent 45%),
+    radial-gradient(circle at 80% 60%, rgba(255,62,165,0.2), transparent 50%),
+    url("images/bg2.avif");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+  /* Blending on large moving surfaces is slow in Chrome. 
+     Removed overlay blend mode for performance; adjusted opacity instead. */
+  
+  animation: auroraMove 120s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0,0,0); /* Force GPU acceleration */
+  z-index: 0;
 }
 
-.orb{
-
-position:absolute;
-
-width:800px;
-height:800px;
-
-border-radius:100%;
-
-filter:blur(120px);
-
-opacity:0.10;
-
-animation:float 20s ease-in-out infinite;
-
+/* 2. Simplified Orbs: Blur is expensive, so we use translate3d */
+.orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.orb.green{
-
-background:#00e0a8;
-
-top:10%;
-left:15%;
-
+.orb {
+  position: absolute;
+  width: 600px; /* Reduced slightly from 800px */
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(80px); /* Lowered blur radius for Chrome performance */
+  opacity: 0.12;
+  will-change: transform;
+  animation: float 20s ease-in-out infinite;
 }
 
-.orb.pink{
+.orb.green { background: var(--accent1); top: 10%; left: 15%; }
+.orb.pink { background: var(--accent2); bottom: 5%; right: 10%; animation-delay: -5s; }
 
-background:#ff3ea5;
-
-bottom:5%;
-right:10%;
-
+/* 3. Ripple: Combined and Deduplicated */
+.ripple {
+  position: fixed;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.03), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.02), transparent 45%);
+  animation: rippleMove 60s linear infinite;
+  z-index: 1;
+  pointer-events: none;
 }
 
-@keyframes float{
-
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-40px);}
-
+/* 4. Noise: Added specific display optimization */
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("images/noise.png");
+  opacity: 0.3; /* Slightly lower opacity for clarity */
+  pointer-events: none;
+  z-index: 2;
+  /* Prevents Chrome from trying to "smooth" the noise texture */
+  image-rendering: pixelated; 
 }
+
+/* Keyframes Optimized for GPU */
+@keyframes auroraMove {
+  0%, 100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-2%, 1%, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(0, -30px, 0); }
+}
+
+@keyframes rippleMove {
+  0% { transform: translate3d(0,0,0) rotate(0deg); }
+  100% { transform: translate3d(0,0,0) rotate(360deg); } /* Cleaner rotation */
+}
+
+/* Footer & Typography */
+footer {
+  position: relative;
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  z-index: 10;
+}
+
+footer a { color: var(--accent1); text-decoration: none; transition: color 0.3s; }
+footer a:hover { text-decoration: underline; color: #00ffe0; }
+
+.subtitle { font-size: 0.8rem; letter-spacing: 0.3em; color: #aaa; margin-bottom: 50px; text-transform: uppercase; }
+.role { font-size: 0.8rem; color: #aaa; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6px; }
