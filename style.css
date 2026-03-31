@@ -183,40 +183,7 @@ margin-bottom:12px;
   background-size: cover;
   background-repeat: no-repeat;
   
-  /* Blending on large moving surfaces is slow in Chrome. 
-     Removed overlay blend mode for performance; adjusted opacity instead. */
-  
-  animation: auroraMove 120s ease-in-out infinite;
-  will-change: transform;
-  transform: translate3d(0,0,0); /* Force GPU acceleration */
-  z-index: 0;
-}
 
-/* 2. Simplified Orbs: Blur is expensive, so we use translate3d */
-.orbs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.orb {
-  position: absolute;
-  width: 600px; /* Reduced slightly from 800px */
-  height: 600px;
-  border-radius: 50%;
-  filter: blur(80px); /* Lowered blur radius for Chrome performance */
-  opacity: 0.12;
-  will-change: transform;
-  animation: float 20s ease-in-out infinite;
-}
-
-.orb.green { background: var(--accent1); top: 10%; left: 15%; }
-.orb.pink { background: var(--accent2); bottom: 5%; right: 10%; animation-delay: -5s; }
 
 /* 3. Ripple: Combined and Deduplicated */
 .ripple {
