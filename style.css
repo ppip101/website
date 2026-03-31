@@ -187,6 +187,21 @@ margin-bottom:12px;
   100% { transform: translate(0, 0); }
 }
 
+.ripple{
+position:fixed;
+top:0;
+left:0;
+width:200%;
+height:200%;
+
+background:
+radial-gradient(circle at 30% 40%, rgba(255,255,255,0.05), transparent 40%),
+radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04), transparent 45%);
+
+animation:rippleMove 60s linear infinite;
+
+z-index:1;
+}
 
 @keyframes rippleMove{
 
